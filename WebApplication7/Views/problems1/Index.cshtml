@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebApplication7.Models.problems1>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Difficulty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolvedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SuccessRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeLimit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemoryLimit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WrongTry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightLimit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Accepted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difficulty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SolvedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuccessRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeLimit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemoryLimit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WrongTry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightLimit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Accepted)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PblmId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PblmId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PblmId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

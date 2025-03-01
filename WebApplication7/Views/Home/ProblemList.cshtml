@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebApplication7.Models.problems1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom CSS for additional styling -->
+    <style>
+        .navbar-custom {
+            background-color: #000000; /* Black background */
+        }
+
+            .navbar-custom .navbar-brand,
+            .navbar-custom .nav-link {
+                color: #ffffff; /* White text */
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: #cccccc; /* Light gray on hover */
+                }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">CodeSphere</a>
+            <!-- Toggle button for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="SubmitCode" class="nav-link">Submit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Pblm_view" asp-action="Index" class="nav-link">Problem Set</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Problem List</h2>
+    <div class="list-group">
+        @foreach (var problem in Model)
+        {
+            <div class="list-group-item @(problem.SolvedBy % 2 == 0 ? "bg-light" : "bg-white") p-3 mb-2 rounded border">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">
+                            <a href="#" class="text-primary fw-bold">@problem.Title</a>
+                        </h5>
+                        <p class="mb-1 text-muted">
+                            Code: @problem.PblmId | Difficulty:
+                            <span class="badge @(problem.Difficulty == "Easy" ? "bg-success" : problem.Difficulty == "Medium" ? "bg-warning text-dark" : "bg-danger")">
+                                @problem.Difficulty
+                            </span> |
+                            Solved by: @problem.SolvedBy | Success rate: @problem.SuccessRate%
+                        </p>
+                    </div>
+                    <div>
+                        <button class="btn @(problem.SolvedBy % 2 == 0 ? "btn-primary" : "btn-success")" @(problem.SolvedBy % 2 == 0 ? "" : "disabled")>
+                            @(problem.SolvedBy % 2 == 0 ? "Solve" : "Solved ✓")
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+</body>
+</html>
+

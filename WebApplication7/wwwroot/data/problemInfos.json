@@ -1,0 +1,22 @@
+﻿[
+    {
+        "id": 1,
+        "title": "Find Maximum",
+        "description": "Given two numbers, print the maximum.",
+        "inputFormat": "The first line contains a single integer N. The second line contains N space-separated integers.",
+        "outputFormat": "Print the maximum number.",
+        "inputExample": "3\n4 5",
+        "outputExample": "5",
+        "explanation": "The numbers are 4 and 5. The maximum is 5."
+    },
+    {
+        "id": 2,
+        "title": "Sum of Two Numbers",
+        "description": "Given two numbers, print their sum.",
+        "inputFormat": "The first line contains two integers A and B.",
+        "outputFormat": "Print the sum of A and B.",
+        "inputExample": "3 7",
+        "outputExample": "10",
+        "explanation": "Adding 3 and 7 gives 10."
+    }
+]
