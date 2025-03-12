@@ -10,22 +10,22 @@ using WebApplication7.Models;
 
 namespace WebApplication7.Controllers
 {
-    public class taskListsController : Controller
+    public class UserInfoesController : Controller
     {
         private readonly taskContext _context;
 
-        public taskListsController(taskContext context)
+        public UserInfoesController(taskContext context)
         {
             _context = context;
         }
 
-        // GET: taskLists
+        // GET: UserInfoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.taskList.ToListAsync());
+            return View(await _context.UserInfo.ToListAsync());
         }
 
-        // GET: taskLists/Details/5
+        // GET: UserInfoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var taskList = await _context.taskList
-                .FirstOrDefaultAsync(m => m.taskId == id);
-            if (taskList == null)
+            var userInfo = await _context.UserInfo
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (userInfo == null)
             {
                 return NotFound();
             }
 
-            return View(taskList);
+            return View(userInfo);
         }
 
-        // GET: taskLists/Create
+        // GET: UserInfoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: taskLists/Create
+        // POST: UserInfoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("taskId,Title,Description,Difficulty,datetime")] taskList taskList)
+        public async Task<IActionResult> Create([Bind("UserId,Username,Email,Password,ConfirmPassword")] UserInfo userInfo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(taskList);
+                _context.Add(userInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(taskList);
+            return View(userInfo);
         }
 
-        // GET: taskLists/Edit/5
+        // GET: UserInfoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var taskList = await _context.taskList.FindAsync(id);
-            if (taskList == null)
+            var userInfo = await _context.UserInfo.FindAsync(id);
+            if (userInfo == null)
             {
                 return NotFound();
             }
-            return View(taskList);
+            return View(userInfo);
         }
 
-        // POST: taskLists/Edit/5
+        // POST: UserInfoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("taskId,Title,Description,Difficulty,datetime")] taskList taskList)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,Username,Email,Password,ConfirmPassword")] UserInfo userInfo)
         {
-            if (id != taskList.taskId)
+            if (id != userInfo.UserId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace WebApplication7.Controllers
             {
                 try
                 {
-                    _context.Update(taskList);
+                    _context.Update(userInfo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!taskListExists(taskList.taskId))
+                    if (!UserInfoExists(userInfo.UserId))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace WebApplication7.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(taskList);
+            return View(userInfo);
         }
 
-        // GET: taskLists/Delete/5
+        // GET: UserInfoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var taskList = await _context.taskList
-                .FirstOrDefaultAsync(m => m.taskId == id);
-            if (taskList == null)
+            var userInfo = await _context.UserInfo
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (userInfo == null)
             {
                 return NotFound();
             }
 
-            return View(taskList);
+            return View(userInfo);
         }
 
-        // POST: taskLists/Delete/5
+        // POST: UserInfoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var taskList = await _context.taskList.FindAsync(id);
-            if (taskList != null)
+            var userInfo = await _context.UserInfo.FindAsync(id);
+            if (userInfo != null)
             {
-                _context.taskList.Remove(taskList);
+                _context.UserInfo.Remove(userInfo);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool taskListExists(int id)
+        private bool UserInfoExists(int id)
         {
-            return _context.taskList.Any(e => e.taskId == id);
+            return _context.UserInfo.Any(e => e.UserId == id);
         }
     }
 }

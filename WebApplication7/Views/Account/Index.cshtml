@@ -1,4 +1,4 @@
-﻿@model WebApplication7.Models.User
+﻿@model WebApplication7.Models.UserInfo
 
 @{
     Layout = null;
@@ -57,7 +57,7 @@
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">Don't have an account?</p>
-                                            <button type="button" class="btn btn-outline-danger">Create new</button>
+                                            <a asp-controller="Account" asp-action="CreateAccount" button type="button" class="btn btn-outline-danger">Create new</button></a>
                                         </div>
                                     </form>
 

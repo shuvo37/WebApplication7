@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication7.Data;
 
@@ -11,9 +12,11 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(taskContext))]
-    partial class taskContextModelSnapshot : ModelSnapshot
+    [Migration("20250311071057_createTHree")]
+    partial class createTHree
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +64,88 @@ namespace WebApplication7.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PblmDescription");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.ProblemViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Constraints")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProblemViewModel");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Problems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Constraints")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Problems");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.Profile", b =>
@@ -177,6 +262,35 @@ namespace WebApplication7.Migrations
                     b.ToTable("Submission");
                 });
 
+            modelBuilder.Entity("WebApplication7.Models.TestCases", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExpectedOutput")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSample")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProblemId");
+
+                    b.ToTable("TestCases");
+                });
+
             modelBuilder.Entity("WebApplication7.Models.UserImg", b =>
                 {
                     b.Property<int>("Id")
@@ -247,12 +361,6 @@ namespace WebApplication7.Migrations
                     b.Property<double>("SuccessRate")
                         .HasColumnType("float");
 
-                    b.Property<string>("TestCaseInput")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestCaseOutput")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TimeLimit")
                         .HasColumnType("int");
 
@@ -290,6 +398,17 @@ namespace WebApplication7.Migrations
                     b.HasOne("WebApplication7.Models.Profile", null)
                         .WithMany("Submission")
                         .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.TestCases", b =>
+                {
+                    b.HasOne("WebApplication7.Models.Problems", "Problem")
+                        .WithMany()
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Problem");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.Profile", b =>

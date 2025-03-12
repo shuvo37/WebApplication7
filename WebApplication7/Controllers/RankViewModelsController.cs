@@ -10,22 +10,22 @@ using WebApplication7.Models;
 
 namespace WebApplication7.Controllers
 {
-    public class UsersController : Controller
+    public class RankViewModelsController : Controller
     {
         private readonly taskContext _context;
 
-        public UsersController(taskContext context)
+        public RankViewModelsController(taskContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: RankViewModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _context.RankViewModel.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: RankViewModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var rankViewModel = await _context.RankViewModel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (rankViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(rankViewModel);
         }
 
-        // GET: Users/Create
+        // GET: RankViewModels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: RankViewModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Email,Password,ConfirmPassword")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Rank,UserId,Username,SolvedProblems,TotalRejected")] RankViewModel rankViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(rankViewModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(rankViewModel);
         }
 
-        // GET: Users/Edit/5
+        // GET: RankViewModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var rankViewModel = await _context.RankViewModel.FindAsync(id);
+            if (rankViewModel == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(rankViewModel);
         }
 
-        // POST: Users/Edit/5
+        // POST: RankViewModels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,Password,ConfirmPassword")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Rank,UserId,Username,SolvedProblems,TotalRejected")] RankViewModel rankViewModel)
         {
-            if (id != user.Id)
+            if (id != rankViewModel.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace WebApplication7.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(rankViewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!RankViewModelExists(rankViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace WebApplication7.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(rankViewModel);
         }
 
-        // GET: Users/Delete/5
+        // GET: RankViewModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace WebApplication7.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var rankViewModel = await _context.RankViewModel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (rankViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(rankViewModel);
         }
 
-        // POST: Users/Delete/5
+        // POST: RankViewModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            if (user != null)
+            var rankViewModel = await _context.RankViewModel.FindAsync(id);
+            if (rankViewModel != null)
             {
-                _context.User.Remove(user);
+                _context.RankViewModel.Remove(rankViewModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool RankViewModelExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.RankViewModel.Any(e => e.Id == id);
         }
     }
 }

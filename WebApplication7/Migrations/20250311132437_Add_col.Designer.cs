@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication7.Data;
 
@@ -11,9 +12,11 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(taskContext))]
-    partial class taskContextModelSnapshot : ModelSnapshot
+    [Migration("20250311132437_Add_col")]
+    partial class Add_col
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

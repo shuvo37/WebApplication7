@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,14 +56,57 @@ namespace WebApplication7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PblmId,Difficulty,SolvedBy,SuccessRate,Title,TimeLimit,MemoryLimit,WrongTry,WeightLimit,Accepted")] problems1 problems1)
+        public async Task<IActionResult> Create(int PblmId,string  Difficulty, int SolvedBy,
+          IFormFile TestCaseInput, IFormFile TestCaseOutput , double SuccessRate, 
+         string Title, int TimeLimit,int  MemoryLimit,int WrongTry,int  WeightLimit,int Accepted)
         {
-            if (ModelState.IsValid)
+
+
+
+            if (TestCaseInput == null || TestCaseInput.Length == 0 || TestCaseOutput == null || TestCaseOutput.Length == 0)
             {
+                return BadRequest("No file uploaded");
+            }
+
+            string fileContent, fileContent1;
+
+            using (var stream = new StreamReader(TestCaseInput.OpenReadStream(), Encoding.UTF8))
+            {
+                // Read entire file as a string
+                fileContent = await stream.ReadToEndAsync();
+            }
+
+            using (var stream = new StreamReader(TestCaseOutput.OpenReadStream(), Encoding.UTF8))
+            {
+                // Read entire file as a string
+                fileContent1 = await stream.ReadToEndAsync();
+            }
+
+
+            // Trim any extra spaces and replace newlines with <br>
+            string formattedContent = fileContent.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+            string formattedContent1 = fileContent1.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+
+            problems1 problems1 = new problems1();
+
+            problems1.PblmId = PblmId;
+            problems1.Difficulty = Difficulty;
+            problems1.SolvedBy = SolvedBy;
+            problems1.TestCaseInput = formattedContent;
+            problems1.TestCaseOutput = formattedContent1;
+            problems1.SuccessRate = SuccessRate;
+            problems1.Title = Title;
+            problems1.TimeLimit = TimeLimit;
+            problems1.MemoryLimit = MemoryLimit;
+            problems1.WrongTry = WrongTry;
+            problems1.WeightLimit = WeightLimit;
+            problems1.Accepted = Accepted;
+
+          
                 _context.Add(problems1);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            
             return View(problems1);
         }
 

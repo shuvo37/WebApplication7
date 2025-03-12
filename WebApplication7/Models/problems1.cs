@@ -10,8 +10,14 @@ namespace WebApplication7.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)] // Prevent auto-increment
         public int PblmId { get; set; }
+
+        public int? UserId { get; set; }
         public string Difficulty { get; set; }
         public int SolvedBy { get; set; }
+
+        public string? TestCaseInput { get; set; }
+
+        public string? TestCaseOutput { get; set; }
         public double SuccessRate { get; set; }
         public string Title { get; set; }
 

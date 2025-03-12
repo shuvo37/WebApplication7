@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -54,14 +55,49 @@ namespace WebApplication7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,InputFormat,OutputFormat,InputExample,OutputExample,Explanation")] ProblemInfo problemInfo)
+        public async Task<IActionResult> Create(int Id ,string Title, string Description,string  InputFormat, 
+            string OutputFormat, IFormFile InputExample, IFormFile OutputExample, string Explanation)
         {
-            if (ModelState.IsValid)
+            if (InputExample == null || InputExample.Length == 0 || OutputExample == null || OutputExample.Length == 0)
             {
+                return BadRequest("No file uploaded");
+            }
+
+            string fileContent, fileContent1;
+
+            using (var stream = new StreamReader(InputExample.OpenReadStream(), Encoding.UTF8))
+            {
+                // Read entire file as a string
+                fileContent = await stream.ReadToEndAsync();
+            }
+
+            using (var stream = new StreamReader(OutputExample.OpenReadStream(), Encoding.UTF8))
+            {
+                // Read entire file as a string
+                fileContent1 = await stream.ReadToEndAsync();
+            }
+
+
+            // Trim any extra spaces and replace newlines with <br>
+            string formattedContent = fileContent.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+            string formattedContent1 = fileContent1.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+            //  [Bind("Id,Title,Description,InputFormat,OutputFormat,InputExample,OutputExample,Explanation")] ProblemInfo problemInfo
+             ProblemInfo problemInfo = new ProblemInfo();
+
+            problemInfo.Id = Id;
+            problemInfo.Title = Title;
+            problemInfo.Description = Description;
+            problemInfo.InputFormat = InputFormat;
+            problemInfo.OutputFormat = OutputFormat;
+            problemInfo.InputExample = formattedContent;
+            problemInfo.OutputExample = formattedContent1;
+            problemInfo.Explanation = Explanation;
+
+            
                 _context.Add(problemInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            
             return View(problemInfo);
         }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication7.Data;
 
@@ -11,9 +12,11 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(taskContext))]
-    partial class taskContextModelSnapshot : ModelSnapshot
+    [Migration("20250306120509_AddTableRank")]
+    partial class AddTableRank
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,34 +64,6 @@ namespace WebApplication7.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PblmDescription");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Profile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("SolvedProblems")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalSubmissions")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserImgId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserImgId");
-
-                    b.ToTable("Profile");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.RankViewModel", b =>
@@ -151,9 +126,6 @@ namespace WebApplication7.Migrations
                     b.Property<int>("Pblm_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Result")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -172,29 +144,7 @@ namespace WebApplication7.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
-
                     b.ToTable("Submission");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.UserImg", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserImg");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.UserInfo", b =>
@@ -247,12 +197,6 @@ namespace WebApplication7.Migrations
                     b.Property<double>("SuccessRate")
                         .HasColumnType("float");
 
-                    b.Property<string>("TestCaseInput")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestCaseOutput")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TimeLimit")
                         .HasColumnType("int");
 
@@ -272,29 +216,6 @@ namespace WebApplication7.Migrations
                     b.HasKey("PblmId");
 
                     b.ToTable("PblmList");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Profile", b =>
-                {
-                    b.HasOne("WebApplication7.Models.UserImg", "UserImg")
-                        .WithMany()
-                        .HasForeignKey("UserImgId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserImg");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Submission", b =>
-                {
-                    b.HasOne("WebApplication7.Models.Profile", null)
-                        .WithMany("Submission")
-                        .HasForeignKey("ProfileId");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Profile", b =>
-                {
-                    b.Navigation("Submission");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,22 @@
+﻿
+<table class="table">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Solved Problems</th>
+            <th>Total Rejected</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Rank</td>
+                <td>@user.Username</td>
+                <td>@user.SolvedProblems</td>
+                <td>@user.TotalRejected</td>
+            </tr>
+        }
+    </tbody>
+</table>

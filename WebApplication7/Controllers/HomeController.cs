@@ -55,6 +55,11 @@ namespace WebApplication7.Controllers
             // Sign out the user
             await HttpContext.SignOutAsync("CookieAuth");
 
+
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("UserName");
+            Response.Cookies.Delete("UserEmail");
+
             // Redirect to the home page or login page
             return RedirectToAction("Index", "Account");
         }
@@ -63,8 +68,14 @@ namespace WebApplication7.Controllers
 
         public IActionResult Index()
         {
+            
+
+           
             return View();
         }
+
+      
+
 
         public IActionResult Submission_page()
         {
@@ -140,6 +151,8 @@ namespace WebApplication7.Controllers
                         // Save submission to the database
 
                         submission.Pblm_id = Id;
+                        submission.UserId = int.Parse(Request.Cookies["UserId"]);
+                        submission.Username = Request.Cookies["UserName"];
                         submission.pblm_name = Name;
                         submission.Language = language;
                         submission.Code = code;

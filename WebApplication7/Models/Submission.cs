@@ -9,9 +9,11 @@ namespace WebApplication7.Models
         [Key]
         public int Id { get; set; }
 
+
         [ForeignKey("PblmList")]
         public int Pblm_id { get; set; }
-
+        public int ? UserId { get; set; }
+        public string? Username { get; set; }
         public string? pblm_name { get; set; }  // This allows NULL values
 
 

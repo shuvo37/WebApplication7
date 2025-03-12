@@ -14,6 +14,8 @@ namespace WebApplication7.Models
         [MaxLength(200)]
         public string Title { get; set; }
 
+        public int? UserId { get; set; }
+
         [Required(ErrorMessage = "Description is required.")]
         [Column(TypeName = "text")]
         public string Description { get; set; }

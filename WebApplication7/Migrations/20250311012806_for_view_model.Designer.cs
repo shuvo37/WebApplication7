@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication7.Data;
 
@@ -11,9 +12,11 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(taskContext))]
-    partial class taskContextModelSnapshot : ModelSnapshot
+    [Migration("20250311012806_for_view_model")]
+    partial class for_view_model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +64,65 @@ namespace WebApplication7.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PblmDescription");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Problem_Test_trialViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Problem_for_trialProblemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Problem_for_trialProblemId");
+
+                    b.ToTable("Problem_Test_trialViewModel");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Problem_for_trial", b =>
+                {
+                    b.Property<int>("ProblemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProblemId"));
+
+                    b.Property<string>("Constraints")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OutputGenScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProblemId");
+
+                    b.ToTable("Problem_for_trial");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.Profile", b =>
@@ -247,12 +309,6 @@ namespace WebApplication7.Migrations
                     b.Property<double>("SuccessRate")
                         .HasColumnType("float");
 
-                    b.Property<string>("TestCaseInput")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestCaseOutput")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TimeLimit")
                         .HasColumnType("int");
 
@@ -274,6 +330,49 @@ namespace WebApplication7.Migrations
                     b.ToTable("PblmList");
                 });
 
+            modelBuilder.Entity("WebApplication7.Models.testCase_for_trial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExpectedOutput")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InputData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSample")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Problem_Test_trialViewModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Problem_Test_trialViewModelId");
+
+                    b.ToTable("testCase_for_trial");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Problem_Test_trialViewModel", b =>
+                {
+                    b.HasOne("WebApplication7.Models.Problem_for_trial", "Problem_for_trial")
+                        .WithMany()
+                        .HasForeignKey("Problem_for_trialProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Problem_for_trial");
+                });
+
             modelBuilder.Entity("WebApplication7.Models.Profile", b =>
                 {
                     b.HasOne("WebApplication7.Models.UserImg", "UserImg")
@@ -290,6 +389,18 @@ namespace WebApplication7.Migrations
                     b.HasOne("WebApplication7.Models.Profile", null)
                         .WithMany("Submission")
                         .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.testCase_for_trial", b =>
+                {
+                    b.HasOne("WebApplication7.Models.Problem_Test_trialViewModel", null)
+                        .WithMany("testCase_for_trial")
+                        .HasForeignKey("Problem_Test_trialViewModelId");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Problem_Test_trialViewModel", b =>
+                {
+                    b.Navigation("testCase_for_trial");
                 });
 
             modelBuilder.Entity("WebApplication7.Models.Profile", b =>

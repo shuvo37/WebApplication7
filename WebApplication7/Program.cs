@@ -11,12 +11,12 @@ builder.Services.AddDbContext<taskContext>(options =>
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAuthentication("CookieAuth")
+/*builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", options =>
     {
         options.LoginPath = "/Account/Login"; // Redirect to login page if unauthorized
         options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if access is denied
-    });
+    });*/
 
 
 var app = builder.Build();
@@ -38,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}");
+    pattern: "{controller=ProblemInfoes}/{action=Index}/{id?}");
 
 app.Run();

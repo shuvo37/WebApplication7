@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication7.Data;
 
@@ -11,9 +12,11 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(taskContext))]
-    partial class taskContextModelSnapshot : ModelSnapshot
+    [Migration("20250308074307_create_Profile_Table")]
+    partial class create_Profile_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,18 +74,8 @@ namespace WebApplication7.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("SolvedProblems")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalSubmissions")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserImgId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -246,12 +239,6 @@ namespace WebApplication7.Migrations
 
                     b.Property<double>("SuccessRate")
                         .HasColumnType("float");
-
-                    b.Property<string>("TestCaseInput")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestCaseOutput")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TimeLimit")
                         .HasColumnType("int");
