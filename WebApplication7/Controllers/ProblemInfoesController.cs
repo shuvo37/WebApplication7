@@ -55,7 +55,7 @@ namespace WebApplication7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int Id ,string Title, string Description,string  InputFormat, 
+        public async Task<IActionResult> Create(int Id ,string Description,string  InputFormat, 
             string OutputFormat, IFormFile InputExample, IFormFile OutputExample, string Explanation)
         {
             if (InputExample == null || InputExample.Length == 0 || OutputExample == null || OutputExample.Length == 0)
@@ -84,8 +84,14 @@ namespace WebApplication7.Controllers
             //  [Bind("Id,Title,Description,InputFormat,OutputFormat,InputExample,OutputExample,Explanation")] ProblemInfo problemInfo
              ProblemInfo problemInfo = new ProblemInfo();
 
+            var problems1 = await _context.problems1
+                .FirstOrDefaultAsync(m => m.PblmId == Id);
+
+              
+
+
             problemInfo.Id = Id;
-            problemInfo.Title = Title;
+            problemInfo.Title = problems1.Title;
             problemInfo.Description = Description;
             problemInfo.InputFormat = InputFormat;
             problemInfo.OutputFormat = OutputFormat;
@@ -93,12 +99,18 @@ namespace WebApplication7.Controllers
             problemInfo.OutputExample = formattedContent1;
             problemInfo.Explanation = Explanation;
 
-            
-                _context.Add(problemInfo);
+            if (problems1 == null || Description == null || InputFormat == null ||
+                OutputFormat == null || formattedContent == null || Explanation == null)
+            {
+                return View(problemInfo);
+            }
+
+
+            _context.Add(problemInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             
-            return View(problemInfo);
+            
         }
 
         // GET: ProblemInfoes/Edit/5
@@ -122,7 +134,7 @@ namespace WebApplication7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,InputFormat,OutputFormat,InputExample,OutputExample,Explanation")] ProblemInfo problemInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,InputFormat,OutputFormat,InputExample,OutputExample,Explanation")] ProblemInfo problemInfo)
         {
             if (id != problemInfo.Id)
             {

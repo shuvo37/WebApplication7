@@ -18,35 +18,29 @@
                 <span asp-validation-for="PblmId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Difficulty" class="control-label"></label>
-                <input asp-for="Difficulty" class="form-control" />
-                <span asp-validation-for="Difficulty" class="text-danger"></span>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SolvedBy" class="control-label"></label>
-                <input asp-for="SolvedBy" class="form-control" />
-                <span asp-validation-for="SolvedBy" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="TestCaseInput" class="control-label"></label>
                 <input type="file" asp-for="TestCaseInput" name="TestCaseInput" required /><br><br>
                 <span asp-validation-for="TestCaseInput" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="TestCaseOutput" class="control-label"></label>
                 <input type="file" asp-for="TestCaseOutput" name="TestCaseOutput" required /><br><br>
                 <span asp-validation-for="TestCaseOutput" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="SuccessRate" class="control-label"></label>
-                <input asp-for="SuccessRate" class="form-control" />
-                <span asp-validation-for="SuccessRate" class="text-danger"></span>
+                <label asp-for="Difficulty" class="control-label"></label>
+                <input asp-for="Difficulty" class="form-control" />
+                <span asp-validation-for="Difficulty" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="TimeLimit" class="control-label"></label>
                 <input asp-for="TimeLimit" class="form-control" />
@@ -57,21 +51,7 @@
                 <input asp-for="MemoryLimit" class="form-control" />
                 <span asp-validation-for="MemoryLimit" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="WrongTry" class="control-label"></label>
-                <input asp-for="WrongTry" class="form-control" />
-                <span asp-validation-for="WrongTry" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WeightLimit" class="control-label"></label>
-                <input asp-for="WeightLimit" class="form-control" />
-                <span asp-validation-for="WeightLimit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Accepted" class="control-label"></label>
-                <input asp-for="Accepted" class="form-control" />
-                <span asp-validation-for="Accepted" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

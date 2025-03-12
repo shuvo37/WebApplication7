@@ -12,7 +12,7 @@ namespace WebApplication7.Models
 
         [Required(ErrorMessage = "Title is required.")]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public string ? Title { get; set; }
 
         public int? UserId { get; set; }
 

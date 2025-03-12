@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Difficulty)
             </th>
             <th>
@@ -21,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.SuccessRate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.TimeLimit)
             </th>
@@ -33,9 +34,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.WrongTry)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WeightLimit)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Accepted)
             </th>
@@ -45,6 +44,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Difficulty)
             </td>
@@ -54,9 +56,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.SuccessRate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.TimeLimit)
             </td>
@@ -66,9 +66,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.WrongTry)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeightLimit)
-            </td>
+            
+              
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Accepted)
             </td>

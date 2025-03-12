@@ -56,10 +56,86 @@ namespace WebApplication7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int PblmId,string  Difficulty, int SolvedBy,
-          IFormFile TestCaseInput, IFormFile TestCaseOutput , double SuccessRate, 
-         string Title, int TimeLimit,int  MemoryLimit,int WrongTry,int  WeightLimit,int Accepted)
+        public async Task<IActionResult> Create(int PblmId, string Title, IFormFile TestCaseInput,
+    IFormFile TestCaseOutput, string Difficulty, int TimeLimit, int MemoryLimit)
         {
+            if (TestCaseInput == null || TestCaseInput.Length == 0 ||
+                TestCaseOutput == null || TestCaseOutput.Length == 0)
+            {
+                return BadRequest("No file uploaded");
+            }
+
+            // Read input file content
+            string fileContent, fileContent1;
+            using (var stream = new StreamReader(TestCaseInput.OpenReadStream(), Encoding.UTF8))
+            {
+                fileContent = await stream.ReadToEndAsync();
+            }
+            using (var stream = new StreamReader(TestCaseOutput.OpenReadStream(), Encoding.UTF8))
+            {
+                fileContent1 = await stream.ReadToEndAsync();
+            }
+
+            // Trim and format content
+            string formattedContent = fileContent.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+            string formattedContent1 = fileContent1.Trim().Replace("\r\n", "<br>").Replace("\n", "<br>");
+
+            // Check if the problem already exists
+            var existingProblem = await _context.problems1.FirstOrDefaultAsync(m => m.PblmId == PblmId);
+
+            if (existingProblem != null)
+            {
+                return View(existingProblem);  // Return the existing problem
+            }
+
+            // Validate required fields
+            if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Difficulty))
+            {
+                return View();  // Return the form with validation errors
+            }
+
+            // Create new problem entry
+            var problems1 = new problems1
+            {
+                PblmId = PblmId,
+                Title = Title,
+                Difficulty = Difficulty,
+                TestCaseInput = formattedContent,
+                TestCaseOutput = formattedContent1,
+                TimeLimit = TimeLimit,
+                MemoryLimit = MemoryLimit
+            };
+
+            _context.Add(problems1);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: problems1/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var problems1 = await _context.problems1.FindAsync(id);
+            if (problems1 == null)
+            {
+                return NotFound();
+            }
+            return View(problems1);
+        }
+
+        // POST: problems1/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int PblmId, string Title, IFormFile TestCaseInput, IFormFile TestCaseOutput, string Difficulty, int TimeLimit, int MemoryLimit)
+        {
+
 
 
 
@@ -90,75 +166,33 @@ namespace WebApplication7.Controllers
             problems1 problems1 = new problems1();
 
             problems1.PblmId = PblmId;
+
+            problems1.Title = Title;
             problems1.Difficulty = Difficulty;
-            problems1.SolvedBy = SolvedBy;
             problems1.TestCaseInput = formattedContent;
             problems1.TestCaseOutput = formattedContent1;
-            problems1.SuccessRate = SuccessRate;
-            problems1.Title = Title;
             problems1.TimeLimit = TimeLimit;
             problems1.MemoryLimit = MemoryLimit;
-            problems1.WrongTry = WrongTry;
-            problems1.WeightLimit = WeightLimit;
-            problems1.Accepted = Accepted;
 
-          
-                _context.Add(problems1);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            
-            return View(problems1);
-        }
+            problems1 = await _context.problems1
+            .FirstOrDefaultAsync(m => m.PblmId == PblmId);
 
-        // GET: problems1/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+            if (problems1 != null)
             {
-                return NotFound();
+                return View(problems1);
             }
 
-            var problems1 = await _context.problems1.FindAsync(id);
-            if (problems1 == null)
+            if (PblmId == null || Title == null || Difficulty == null ||
+                TimeLimit == null || MemoryLimit == null)
             {
-                return NotFound();
-            }
-            return View(problems1);
-        }
-
-        // POST: problems1/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PblmId,Difficulty,SolvedBy,SuccessRate,Title,TimeLimit,MemoryLimit,WrongTry,WeightLimit,Accepted")] problems1 problems1)
-        {
-            if (id != problems1.PblmId)
-            {
-                return NotFound();
+                return View(problems1);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(problems1);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!problems1Exists(problems1.PblmId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(problems1);
+            _context.Update(problems1);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+
         }
 
         // GET: problems1/Delete/5
@@ -185,9 +219,15 @@ namespace WebApplication7.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var problems1 = await _context.problems1.FindAsync(id);
+            var problems2 = await _context.ProblemInfo.FindAsync(id);
             if (problems1 != null)
             {
                 _context.problems1.Remove(problems1);
+            }
+
+            if (problems2 != null)
+            {
+                _context.ProblemInfo.Remove(problems2);
             }
 
             await _context.SaveChangesAsync();

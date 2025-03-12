@@ -147,6 +147,40 @@ namespace WebApplication7.Controllers
                         bool isAccepted = CompareOutputs(executionResult.Run.Output, expectedOutput);
                         string resultMessage = isAccepted ? "Accepted" : "Rejected";
 
+                        if (isAccepted)
+                        {
+                            var obj = await _context.problems1.FirstOrDefaultAsync(m => m.PblmId == Id);
+
+                            if (obj != null) // Ensure object exists
+                            {
+                                obj.SolvedBy += 1; // Increment solved count
+
+                                // Success rate calculation
+                                double successRate = ((double)obj.SolvedBy / (obj.SolvedBy + obj.WrongTry)) * 100;
+
+                                obj.SuccessRate = successRate; // Assign updated success rate
+
+                                await _context.SaveChangesAsync(); // Save changes to DB
+                            }
+                        }
+                        else
+                        {
+                            var obj = await _context.problems1.FirstOrDefaultAsync(m => m.PblmId == Id);
+
+                            if (obj != null)
+                            {
+                                obj.WrongTry += 1; // Increment wrong attempt count
+
+                                // Success rate calculation
+                                double successRate = ((double)obj.SolvedBy / (obj.SolvedBy + obj.WrongTry)) * 100;
+
+                                obj.SuccessRate = successRate; // Update success rate
+
+                                await _context.SaveChangesAsync(); // Save changes to DB
+                            }
+                        }
+
+
                         string outputForDatabase = executionResult.Run.Output.Replace("\n", "<br>");
                         // Save submission to the database
 

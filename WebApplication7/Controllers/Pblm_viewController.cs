@@ -22,7 +22,14 @@ namespace WebApplication7.Controllers
             return View(problemsList);
         }
 
+
+        public IActionResult testing_page()
+        {
         
+            return View("testing_page");
+        }
+
+
 
         [HttpGet]
         public async Task<IActionResult> ProblemDescription(int? id)
