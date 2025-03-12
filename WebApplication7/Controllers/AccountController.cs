@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication7.Data;
 using WebApplication7.Migrations;
@@ -68,6 +69,21 @@ namespace WebApplication7.Controllers
             {
                 return RedirectToAction("Index", "Account");
             }
+        }
+
+
+        public async Task<IActionResult> Logout()
+        {
+            // Sign out the user
+            await HttpContext.SignOutAsync("CookieAuth");
+
+
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("UserName");
+            Response.Cookies.Delete("UserEmail");
+
+            // Redirect to the home page or login page
+            return RedirectToAction("Index", "Account");
         }
 
         public IActionResult CreateAccount()
