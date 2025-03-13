@@ -23,7 +23,7 @@ namespace WebApplication7.Controllers
         {
             int userId = Convert.ToInt32(Request.Cookies["UserId"]);
 
-            // Fetch user info
+            // Fetch user information
             var user = _context.UserInfo.FirstOrDefault(u => u.UserId == userId);
 
             // Fetch user image
@@ -52,14 +52,14 @@ namespace WebApplication7.Controllers
             int totalSubmissions = _context.Submission
                 .Count(s => s.UserId == userId);
 
-            // Fetch number of solved problems (distinct problems with accepted status)
+            // Fetch the number of solved problems (distinct problems with accepted status)
             int solvedProblems = _context.Submission
                 .Where(s => s.UserId == userId && s.Result == "Accepted")
                 .Select(s => s.Pblm_id)
                 .Distinct()
                 .Count();
 
-            // Fetch latest submissions
+            // Fetch the latest submissions
             var latestSubmissions = _context.Submission
                 .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.SubmissionTime)
