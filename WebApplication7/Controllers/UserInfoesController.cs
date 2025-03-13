@@ -19,13 +19,13 @@ namespace WebApplication7.Controllers
             _context = context;
         }
 
-        // GET: UserInfoes
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.UserInfo.ToListAsync());
         }
 
-        // GET: UserInfoes/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
