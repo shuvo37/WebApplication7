@@ -94,7 +94,7 @@ namespace WebApplication7.Controllers
             }
 
             if (ModelState.IsValid)
-            {
+            { 
                 try
                 {
                     _context.Update(userInfo);
