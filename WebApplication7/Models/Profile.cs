@@ -14,6 +14,6 @@ namespace WebApplication7.Models
         public int SolvedProblems { get; set; }
         public List<Submission> Submission { get; set; }
 
-
+ 
     }
 }

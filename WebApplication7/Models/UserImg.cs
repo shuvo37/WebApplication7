@@ -11,7 +11,7 @@ namespace WebApplication7.Models
         public int UserId { get; set; }
 
         [Required]
-        public string ImagePath { get; set; } // Stores image file path
+        public string ImagePath { get; set; }
 
 
     }
